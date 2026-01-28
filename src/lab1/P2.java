@@ -13,34 +13,26 @@ public class P2 {
             System.out.print("Input demerit points: ");
             int merit = sc.nextInt();
 
-            char range = determineRange(salary);
 
-            boolean isA_Range = range == 'A' && merit >= 20;
-            boolean isB_range = (range == 'A' && merit < 20) || (range == 'B' && merit >= 10);
-            boolean isC_range = (range == 'C') || (range == 'B' && merit < 10);
-
-            if (isA_Range) {
-                System.out.println("A");
-            } else if (isB_range) {
-                System.out.println('B');
-            } else if (isC_range) {
-                System.out.println('C');
-            } else {
-                System.out.println("Cannot determine");
-            }
-
+            System.out.println(calculateGrade(salary, merit));
         }
     }
-
-    static char determineRange(int salary) {
-        if (salary < 900 && salary > 699) {
-            return 'A';
+    static String calculateGrade(int salary, int merit) {
+        // 1. Handle Grade A / Upper B overlap
+        if (salary >= 700 && salary <= 899) {
+            return (merit >= 20) ? "A" : "B";
         }
 
-        if (salary >= 600 && salary < 799) {
-            return 'B';
+        // 2. Handle Grade B / Lower C overlap
+        if (salary >= 600 && salary < 700) {
+            return (merit >= 10) ? "B" : "C";
         }
 
-        return 'C';
+        // 3. Handle pure Grade C
+        if (salary >= 500 && salary < 600) {
+            return "C";
+        }
+        return "Invalid Salary";
     }
+
 }
